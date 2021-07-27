@@ -11,6 +11,15 @@
 <script>
 export default {
   name: "App",
+  mounted() {
+    let vh = window.innerHeight * 0.01
+    document.documentElement.style.setProperty("--vh", `${vh}px`)
+
+    window.addEventListener("resize", () => {
+      let vh = window.innerHeight * 0.01
+      document.documentElement.style.setProperty("--vh", `${vh}px`)
+    })
+  },
 }
 </script>
 
@@ -27,6 +36,8 @@ export default {
 
 body {
   overflow-x: hidden;
+  height: 95vh;
+  max-height: 95vh;
 }
 
 *::-webkit-scrollbar {
@@ -50,12 +61,14 @@ body {
   text-align: center;
   background-color: transparent;
   color: white;
+  height: 100%;
 }
 
 .bg-lines {
   position: fixed;
   width: 100%;
   height: 100vh;
+  /* height: calc(var(--vh, 1vh) * 100); */
   top: 0;
   left: 0;
   display: flex;

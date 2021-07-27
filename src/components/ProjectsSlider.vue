@@ -1,12 +1,17 @@
 <template>
   <section class="projects">
     <div class="carousel">
-      <div class="item" v-for="(img, i) in imgs" :key="i">
+      <router-link
+        :to="'/projects/' + img.id"
+        class="item"
+        v-for="(img, i) in imgs"
+        :key="i"
+      >
         <h2 class="item__title">{{ img.title }}</h2>
         <div class="item__img">
           <img :src="img.img" alt="img" class="carousel__img" />
         </div>
-      </div>
+      </router-link>
     </div>
     <canvas class="webgl"></canvas>
   </section>
@@ -15,7 +20,10 @@
 <style>
 .projects {
   width: 100%;
+
+  height: calc(var(--vh, 1vh) * 100);
   height: 100vh;
+  /* height: 100%; */
   overflow: hidden;
 
   position: relative;
@@ -40,7 +48,7 @@
   width: 100%;
   height: 70%;
   padding: 1.5rem 0 0rem 2rem;
-
+  height: clamp(200px, 70vw, 500px);
   /* max-width: 94rem; */
   gap: 2rem;
 
@@ -66,12 +74,13 @@
   /* width: 744px;
   height: 460px; */
   width: clamp(295px, 70vw, 744px);
-  height: clamp(155px, 70vw, 460px);
+  height: clamp(155px, 60vw, 460px);
 
   transform: scale(0.9);
   border-radius: 13px;
   aspect-ratio: 4/3;
 }
+
 .item__title {
   text-align: center;
 }
@@ -101,20 +110,28 @@
 .item img {
   max-width: 100%;
   height: auto;
+  height: 100%;
   opacity: 0;
   object-fit: cover;
   object-position: center;
   border-radius: 13px;
+  z-index: 10;
 }
+
+/* @media (max-width: 400px) {
+  .item__img {
+    width: 295px;
+    height: 155px;
+  }
+
+  .item__img img {
+    width: 295px;
+    height: 155px;
+  }
+} */
 </style>
 
 <script>
-import img1 from "../assets/chat.png"
-import img2 from "../assets/e-shop.png"
-import img3 from "../assets/nintendo-game-info-page.png"
-import img4 from "../assets/countries-app.png"
-import img5 from "../assets/pomodoro-app.png"
-import img6 from "../assets/simon-says.png"
 import * as THREE from "three"
 
 // import fragmentShader from "./shaders/portal/fragment.glsl"
@@ -125,24 +142,17 @@ export default {
     return {
       // imgs: [img1, img2, img3, img4, img5, img6],
 
-      imgs: [
-        { img: img1, title: "Chatterino" },
-        { img: img2, title: "e-shop" },
-        { img: img3, title: "game info page" },
-        { img: img4, title: "Countries app" },
-        { img: img5, title: "pomodoro" },
-        { img: img6, title: "Simon says" },
-      ],
-
       figure: null,
     }
   },
 
-  mounted() {
-    /**
-     * Base
-     */
+  computed: {
+    imgs() {
+      return this.$store.getters.getImgs
+    },
+  },
 
+  mounted() {
     this.$nextTick(function() {
       function lerp(start, end, t) {
         return start * (1 - t) + end * t
@@ -198,6 +208,7 @@ export default {
           this.scrolled = null
           this.down = false
           this.mouseIsOver = false
+          this.lastMove = 0
           this.init()
         }
 
@@ -215,7 +226,9 @@ export default {
             const imSizes = new THREE.Vector2(imgRect.width, imgRect.height)
             const imOffset = new THREE.Vector2(
               relativePos.left - window.innerWidth / 2 + imgRect.width / 2,
-              -relativePos.top + window.innerHeight / 2 - imgRect.height / 2
+              -relativePos.top +
+                this.section.clientHeight / 2 -
+                imgRect.height / 2
             )
 
             const loadedImg = textureLoader.load(img.src)
@@ -237,19 +250,52 @@ export default {
             const sectionRect = this.section.getBoundingClientRect()
             const relativePos = {}
 
-            ;(relativePos.top = imgRect.top - sectionRect.top),
-              (relativePos.right = imgRect.right - sectionRect.right),
-              (relativePos.bottom = imgRect.bottom - sectionRect.bottom),
-              (relativePos.left = imgRect.left - sectionRect.left)
+            relativePos.top = imgRect.top - sectionRect.top
+            relativePos.right = imgRect.right - sectionRect.right
+            relativePos.bottom = imgRect.bottom - sectionRect.bottom
+            relativePos.left = imgRect.left - sectionRect.left
 
             const imSizes = new THREE.Vector2(imgRect.width, imgRect.height)
+
+            // const imOffset = new THREE.Vector2(
+            //   relativePos.left - window.innerWidth / 2 + imgRect.width / 2,
+            //   -relativePos.top +
+            //     sectionRect.clientHeight / 2 -
+            //     imgRect.height / 2
+            // )
+
+            console.log(sectionRect.height, this.section.clientHeight)
+
             const imOffset = new THREE.Vector2(
-              relativePos.left - window.innerWidth / 2 + imgRect.width / 2,
-              -relativePos.top + window.innerHeight / 2 - imgRect.height / 2
+              relativePos.left -
+                this.section.clientWidth / 2 +
+                imgRect.width / 2,
+              -relativePos.top +
+                this.section.clientHeight / 2 -
+                imgRect.height / 2
             )
 
             this.meshes[i].position.set(imOffset.x, imOffset.y, 0)
             this.meshes[i].scale.set(imSizes.x, imSizes.y, 1)
+            //alert(`${this.meshes[i].scale.x},${this.meshes[i].scale.y}`)
+            // gsap
+            //   .timeline()
+            //   .to(this.meshes[i].scale, {
+            //     duration: 0.3,
+            //     x: imSizes.x,
+            //     y: imSizes.y,
+            //     z: 1,
+            //   })
+            //   .to(
+            //     this.meshes[i].position,
+            //     {
+            //       duration: 0.3,
+            //       x: imOffset.x,
+            //       y: imOffset.y,
+            //       z: 0,
+            //     },
+            //     "<"
+            //   )
           })
 
           this.parent.scrollLeft =
@@ -268,7 +314,7 @@ export default {
         createPlane(size, offset, loadedImg) {
           const material = new THREE.ShaderMaterial({
             vertexShader: `
-          
+
 varying vec2 vUv;
 uniform vec2 uOffset;
 uniform float uHover;
@@ -287,17 +333,17 @@ vec3 deformation(vec3 position, vec2 uv, vec2 offset){
 }
 
 void main(){
-       vec3 newPos =  position; 
-//newPos =  deformation(position, uv, uOffset); 
+       vec3 newPos =  position;
+//newPos =  deformation(position, uv, uOffset);
     // if(uHover == 1.0){
-    //     newPos =  deformation(position, uv, uOffset); 
-    // } 
+    //     newPos =  deformation(position, uv, uOffset);
+    // }
     vec4 modelPosition = modelMatrix * vec4(newPos, 1.0);
     //vec4 constModelPosition = modelMatrix * vec4(newPos, 1.0);
-     
+
     //modelPosition.y += sin( uAnim *100.0)*0.1;
    //modelPosition.x += cos(modelPosition.y * uTime * 0.01)*10.0;
- 
+
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectionPosition = projectionMatrix * viewPosition;
 
@@ -392,7 +438,7 @@ float cnoise(vec3 P)
     vec3 fade_xyz = fade(Pf0);
     vec4 n_z = mix(vec4(n000, n100, n010, n110), vec4(n001, n101, n011, n111), fade_xyz.z);
     vec2 n_yz = mix(n_z.xy, n_z.zw, fade_xyz.y);
-    float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x); 
+    float n_xyz = mix(n_yz.x, n_yz.y, fade_xyz.x);
 
     return 2.2 * n_xyz;
 }
@@ -410,11 +456,11 @@ float createCircle(){
 
     shapeUv /= vec2(1.0,viewportAspect);
     shapeUv += mousePoint;
-   // 
+   //
     float dist = distance(shapeUv,mousePoint);
     dist = smoothstep(circleRadius,circleRadius + 0.001,dist);
    return dist;
-  
+
 }
 
 void main(){
@@ -429,16 +475,16 @@ float offY = uv.y - time * 0.2 - cos(time * 2.0)*0.1;
 
 
 
- 
+
 //  vec2 newUv = vUv + cnoise(vec3(vUv*7.05,uTime *0.01));
 //   float strength = cnoise(vec3(newUv*5.0,uTime*0.2));
 
 
-  
+
     vec4 textureColor = texture2D(uTexture,uv + vec2(nh)*uHover) ;
     //vec4 textureColor = texture2D(uTexture,uv) ;
 //uv + vec2(nh) * uHover
-  
+
    gl_FragColor = textureColor;
    // gl_FragColor =vec4(textureColor.xyz*circle,textureColor.a);
     //gl_FragColor =vec4(vec3(circle),1.0);
@@ -451,7 +497,7 @@ float offY = uv.y - time * 0.2 - cos(time * 2.0)*0.1;
 //     strength += outerGlow;
 //     strength += step(- 0.2, strength) * 0.8;
 //         strength = clamp(strength, 0.0, 1.0);
-    
+
 // vec3 col = mix(uColorStart,uColorEnd,strength);
 //      gl_FragColor = vec4(col, 1.0);
 }
@@ -547,6 +593,8 @@ float offY = uv.y - time * 0.2 - cos(time * 2.0)*0.1;
             () => {
               this.down = false
               this.scrollLeftBResize = this.parent.scrollLeft
+              document.body.style.overflowY = "scroll"
+              console.log(1212)
             },
             { passive: true }
           )
@@ -586,11 +634,13 @@ float offY = uv.y - time * 0.2 - cos(time * 2.0)*0.1;
             //     let c;
             //   c = b > maxScroll ? maxScroll : b
             //   c = b < 0 ? 0 : b
+            if (this.lastMove !== e.changedTouches[0].pageX) {
+              const deltaX = e.changedTouches[0].pageX - this.firstEnter
 
-            const deltaX = e.changedTouches[0].pageX - this.firstEnter
-
-            this.parent.scrollLeft -= deltaX * 0.1
-            this.meshesGroup.position.x = -this.parent.scrollLeft
+              this.parent.scrollLeft -= deltaX * 0.05
+              this.meshesGroup.position.x = -this.parent.scrollLeft
+              this.lastMove = e.changedTouches[0].pageX
+            }
           })
 
           this.imgs.forEach((img, index) => {
@@ -616,7 +666,7 @@ float offY = uv.y - time * 0.2 - cos(time * 2.0)*0.1;
        */
       const sizes = {
         width: window.innerWidth,
-        height: window.innerHeight,
+        height: document.querySelector(".projects").clientHeight,
       }
 
       let resizeTimer
@@ -624,7 +674,7 @@ float offY = uv.y - time * 0.2 - cos(time * 2.0)*0.1;
       window.addEventListener("resize", () => {
         // Update sizes
         sizes.width = window.innerWidth
-        sizes.height = window.innerHeight
+        sizes.height = document.querySelector(".projects").clientHeight
 
         // Update camera
         camera.aspect = sizes.width / sizes.height
@@ -651,7 +701,12 @@ float offY = uv.y - time * 0.2 - cos(time * 2.0)*0.1;
       //hack to set 1 unit to 1 pixel
       const perspective = 800
       const fov =
-        (180 * (2 * Math.atan(window.innerHeight / 2 / perspective))) / Math.PI
+        (180 *
+          (2 *
+            Math.atan(
+              document.querySelector(".projects").clientHeight / 2 / perspective
+            ))) /
+        Math.PI
 
       const camera = new THREE.PerspectiveCamera(
         fov,

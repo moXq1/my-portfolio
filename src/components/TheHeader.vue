@@ -21,6 +21,8 @@
 
 header {
   height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  height: 100%;
   position: relative;
   margin: 0 2rem;
 }
@@ -31,6 +33,8 @@ nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #fff6;
 }
 nav,
 .scroll {
@@ -43,9 +47,12 @@ nav,
   position: absolute;
   right: 0;
   bottom: 0;
+
   writing-mode: vertical-rl;
   transform: rotate(180deg);
   margin-bottom: 2rem;
+
+  font-size: clamp(14px, 2vw, 20px);
 }
 
 .text {
