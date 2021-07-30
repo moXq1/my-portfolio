@@ -1,5 +1,5 @@
 <template>
-  <section class="projects">
+  <section class="projects" id="projects">
     <div class="carousel">
       <router-link
         :to="'/projects/' + img.id"
@@ -153,6 +153,7 @@ export default {
   },
 
   mounted() {
+    this.$store.dispatch("setLoading", true)
     this.$nextTick(function() {
       function lerp(start, end, t) {
         return start * (1 - t) + end * t
@@ -186,8 +187,55 @@ export default {
       /**
        * Loaders
        */
+
+      const manager = new THREE.LoadingManager(
+        () => {
+          // setTimeout(() => {
+          //   gsap.to(overlay.material.uniforms.uAlpha, { duration: 3, value: 0 });
+
+          //   bar.classList.add("ended");
+          //   bar.style.transform = "";
+          // }, 500);
+          ///this.$store.dispatch("setLoading", false)
+
+          const obj = { val: 0 }
+          gsap
+            .timeline()
+            .to(obj, {
+              val: 100,
+              duration: 1,
+              snap: { val: 1 },
+              onUpdate: () => this.$store.dispatch("setPercent", obj.val),
+            })
+            .to(".loader", {
+              y: "-100%",
+              delay: 0.3,
+              duration: 0.5,
+              onComplete: () => {
+                document.querySelector(".header").classList.add("active")
+                this.$store.dispatch("setLoading", false)
+              },
+            })
+
+          console.log(121)
+        },
+        (_, itemsLoaded, itemsTotal) => {
+          let ratio = itemsTotal / itemsLoaded
+          // bar.style.transform = `scaleX(${ratio})`;
+
+          this.$store.dispatch("setLoading", true)
+          // this.$store.dispatch(
+          //   "setPercent",
+          //   (itemsLoaded / itemsTotal).toFixed(2) * 100
+          // )
+          console.log(
+            `Items total: ${itemsTotal},  ItemsLoaded: ${itemsLoaded},   ratio:  ${ratio}`
+          )
+        }
+      )
+
       // Texture loader
-      const textureLoader = new THREE.TextureLoader()
+      const textureLoader = new THREE.TextureLoader(manager)
 
       class imgFigure {
         constructor(imgs) {
@@ -263,8 +311,6 @@ export default {
             //     sectionRect.clientHeight / 2 -
             //     imgRect.height / 2
             // )
-
-            console.log(sectionRect.height, this.section.clientHeight)
 
             const imOffset = new THREE.Vector2(
               relativePos.left -

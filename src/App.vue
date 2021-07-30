@@ -34,6 +34,10 @@ export default {
   scrollbar-color: black rgba(0, 0, 0, 0.3);
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   overflow-x: hidden;
   height: 95vh;

@@ -41,6 +41,8 @@ const store = createStore({
           Also, you can see all members of the app and can start a conversation with any of them. 
         `,
           tenchologies: ["HTML", "CSS", "JavaScript", "Vue", "MongoDB"],
+          href: "",
+          github: "https://github.com/moXq1/chatApp",
         },
         {
           img: img2,
@@ -57,6 +59,8 @@ Simple e-commerce web application built with Vue JS and Firebase. Features inclu
             "Vue",
             "Firebase",
           ],
+          href: "https://e-shop-azure.vercel.app/",
+          github: "https://github.com/moXq1/e-shop",
         },
         {
           img: img3,
@@ -64,6 +68,8 @@ Simple e-commerce web application built with Vue JS and Firebase. Features inclu
           id: "game_info_page",
           info: `Recreation Nintendo game info page. Includes the image lightbox gallery and the search bar's dropdown panel.`,
           tenchologies: ["HTML", "CSS", "JavaScript", "SASS", "Webpack"],
+          href: "https://nintendo-game-info-page.vercel.app/",
+          github: "https://github.com/moXq1/nintendo-game-info-page",
         },
         {
           img: img4,
@@ -74,6 +80,8 @@ Simple e-commerce web application built with Vue JS and Firebase. Features inclu
 
         `,
           tenchologies: ["HTML", "CSS", "JavaScript", "SASS", "Vue"],
+          href: "https://countries-app-ten.vercel.app/",
+          github: "https://github.com/moXq1/countries-app",
         },
         {
           img: img5,
@@ -83,6 +91,8 @@ Simple e-commerce web application built with Vue JS and Firebase. Features inclu
         Pomodoro timer app.Let to set timer and break timers. Customize how long each timer runs for and appearance of the app with ability to set preferences for colors and fonts.
         `,
           tenchologies: ["HTML", "CSS", "JavaScript", "SASS"],
+          href: "https://pomodoro-app.vercel.app/",
+          github: "https://github.com/moXq1/pomodoro-app",
         },
         {
           img: img6,
@@ -92,15 +102,28 @@ Simple e-commerce web application built with Vue JS and Firebase. Features inclu
           The game consists of a device that illuminates one or more buttons in a random order. Then the player must reproduce this order by pressing the buttons. As soon as you played the sequence successfully, you move to the next round.
         `,
           tenchologies: ["HTML", "CSS", "JavaScript", "Vue"],
+          href: "https://simon-says-psi.vercel.app/",
+          github: "https://github.com/moXq1/SimonSays",
         },
       ],
       currendProjectId: null,
+
+      isLoading: false,
+      percent: 0,
     }
   },
 
   mutations: {
     setProjectId(state, payload) {
       state.currentProjectId = payload
+    },
+
+    setLoading(state, payload) {
+      state.isLoading = payload
+    },
+
+    setPercent(state, payload) {
+      state.percent = payload
     },
   },
 
@@ -114,11 +137,36 @@ Simple e-commerce web application built with Vue JS and Firebase. Features inclu
 
       return im
     },
+
+    getLoading(state) {
+      return state.isLoading
+    },
+
+    getPercent(state) {
+      return state.percent
+    },
   },
 
   actions: {
     setProjectId(context, payload) {
       context.commit("setProjectId", payload)
+    },
+
+    setLoading(context, payload) {
+      context.commit("setLoading", payload)
+    },
+
+    setPercent(context, payload) {
+      console.log(context.state.percent)
+      context.commit("setPercent", payload)
+      // let c = setInterval(() => {
+      //   let i = context.state.percent + 1
+      //   context.commit("setPercent", i)
+      //   if (i === payload) {
+      //     clearInterval(c)
+      //     context.commit("setLoading", false)
+      //   }
+      // })
     },
   },
 })

@@ -37,6 +37,24 @@
             </span>
           </div>
         </div>
+
+        <div class="work__links">
+          <a
+            :href="img.href"
+            target="_blank"
+            rel="noopener"
+            class="work__link"
+            v-if="img.href"
+            >visit</a
+          >
+          <a
+            :href="img.github"
+            target="_blank"
+            rel="noopener"
+            class="work__link"
+            >code</a
+          >
+        </div>
       </div>
     </section>
   </article>
@@ -44,8 +62,15 @@
 
 <style>
 .project-page {
-  margin: 0 2rem;
+  margin: 0 auto;
   padding-bottom: 10%;
+  max-width: 1600px;
+}
+
+@media (max-width: 1700px) {
+  .project-page {
+    margin: 0 2rem;
+  }
 }
 
 .project-navigation {
@@ -156,6 +181,49 @@
   background: white;
 }
 
+.work__links {
+  margin-top: 2rem;
+  display: flex;
+  gap: 3rem;
+}
+
+.work__link {
+  position: relative;
+  width: 7rem;
+  height: 7rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-transform: uppercase;
+  font-size: clamp(14px, 2vw, 20px);
+  background: transparent;
+  z-index: 1;
+  transition: all 0.3s ease-out;
+}
+
+.work__link:before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  background: transparent;
+  border-radius: 50%;
+  border: 1px solid #fff8;
+
+  transition: all 0.3s ease-out;
+}
+
+.work__link:hover {
+  color: black;
+}
+
+.work__link:hover::before {
+  background: white;
+  transform: scale(1.2);
+}
+
 .back {
   background-color: transparent;
   width: 54px;
@@ -191,6 +259,14 @@
 }
 
 @media (max-width: 400px) {
+  .work__links {
+    gap: 1.3rem;
+  }
+
+  .work__link {
+    width: 6rem;
+    height: 6rem;
+  }
 }
 </style>
 

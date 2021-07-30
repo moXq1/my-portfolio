@@ -3,13 +3,29 @@
     <div class="contact__container">
       <div class="contact__text">Contact me from the email address below</div>
       <div class="contact__link">
-        <a href="mailto:nikitayanc@gmail.com"> nikitayanc@gmail.com </a>
+        <a href="mailto:nikitaycontact@gmail.com"> nikitaycontact@gmail.com </a>
       </div>
     </div>
     <nav class="contact__links">
       <ul class="links">
-        <li class="social"><a href="#" class="social-link">LinkedIn</a></li>
-        <li class="social"><a href="#" class="social-link">Github</a></li>
+        <li class="social">
+          <a
+            href="https://www.linkedin.com/in/nikita-yanch-851886167/"
+            target="_blank"
+            rel="noopener"
+            class="social-link"
+            >LinkedIn</a
+          >
+        </li>
+        <li class="social">
+          <a
+            href="https://github.com/moXq1"
+            target="_blank"
+            rel="noopener"
+            class="social-link"
+            >Github</a
+          >
+        </li>
       </ul>
     </nav>
   </section>
@@ -74,9 +90,16 @@
   padding-bottom: 0.5rem;
   border-bottom: 5px solid currentColor;
   color: #000;
-  font-size: 8vw;
+  font-size: 7vw;
 
   transition: all 0.3s ease-out;
+}
+
+@media (max-width: 300px) {
+  .contact__link {
+    font-size: 6vw;
+    place-self: center;
+  }
 }
 
 .contact__link:hover {

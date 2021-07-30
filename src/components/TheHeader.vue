@@ -1,14 +1,18 @@
 <template>
-  <header>
-    <nav>
-      <a href="#" class="logo">ny</a>
-      <a href="#" class="works">works</a>
+  <header class="header">
+    <nav class="nav">
+      <router-link to="/" class="logo">ny</router-link>
+      <a href="#projects" class="works">works</a>
     </nav>
     <h1 class="text">
-      Hi. I'm Nikita.
+      <span class="maintext"> Hi. I'm Nikita.</span>
+
       <span class="subtext">A Front-end Developer.</span>
     </h1>
-    <a href="#" class="scroll">scroll</a>
+
+    <div class="scroll">
+      <span class="scr"><span class="arrow">←</span> scroll</span>
+    </div>
   </header>
 </template>
 
@@ -19,12 +23,17 @@
   --header-size: 10vw;
 }
 
-header {
+.header {
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   height: 100%;
   position: relative;
   margin: 0 2rem;
+  visibility: hidden;
+}
+
+.active {
+  visibility: visible;
 }
 
 nav {
@@ -35,12 +44,65 @@ nav {
   justify-content: space-between;
   padding-bottom: 1rem;
   border-bottom: 1px solid #fff6;
+  font-size: clamp(18px, 3vw, 30px);
 }
+
+.nav a {
+  transition: opacity 0.3s ease-out;
+}
+
+.nav a:hover {
+  opacity: 0.8;
+}
+
 nav,
 .scroll {
   text-transform: uppercase;
   font-family: "Orbitron", Helvetica, Arial, sans-serif;
-  font-size: clamp(18px, 3vw, 30px);
+}
+
+@keyframes animMove {
+  0% {
+    transform-origin: center left;
+    width: 0;
+  }
+
+  50% {
+    width: 100%;
+  }
+  100% {
+    /* // transform-origin: center left; */
+    transform: translateX(100%);
+  }
+}
+
+.nav,
+.scroll,
+.text,
+.subtext {
+  overflow: hidden;
+  position: relative;
+}
+
+.maintext,
+.scr {
+  position: relative;
+  display: block;
+}
+
+.active .nav:before,
+.active .scroll:before,
+.active .text:before,
+.active .subtext:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: white;
+  z-index: 10;
+  animation: animMove 1s ease forwards;
 }
 
 .scroll {
@@ -52,7 +114,20 @@ nav,
   transform: rotate(180deg);
   margin-bottom: 2rem;
 
-  font-size: clamp(14px, 2vw, 20px);
+  font-size: clamp(12px, 2vw, 16px);
+  cursor: default;
+}
+
+.scr {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.arrow {
+  display: block;
+  text-align: center;
+  position: relative;
 }
 
 .text {
@@ -71,5 +146,19 @@ nav,
 
 .subtext {
   font-size: calc(var(--header-size) / 3);
+}
+
+.active .nav *,
+.active .scr,
+.active .maintext,
+.active .subtext {
+  transform: translateY(0);
+  transition: transform 0.5s 1s ease;
+}
+.nav *,
+.scr,
+.maintext,
+.subtext {
+  transform: translateY(200%);
 }
 </style>
