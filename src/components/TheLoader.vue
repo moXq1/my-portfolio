@@ -34,6 +34,18 @@ export default {
   background-color: #000;
 }
 
+.loader:before {
+  content: "Loading";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 15vw;
+  color: rgba(255, 255, 255, 0.1);
+  text-transform: uppercase;
+  font-family: "Orbitron", Helvetica, Arial, sans-serif;
+}
+
 .loader__line {
   width: 40%;
   height: 3px;
@@ -76,6 +88,7 @@ export default {
   position: absolute;
   bottom: 0;
   right: 0;
+  opacity: 0.8;
 }
 
 .loader__num:after {

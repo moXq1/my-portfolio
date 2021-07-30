@@ -6,6 +6,7 @@ import { createStore } from "vuex"
 
 import HomePage from "./pages/HomePage.vue"
 import ProjectPage from "./pages/ProjectPage.vue"
+import ErrorPage from "./pages/ErrorPage.vue"
 
 import img1 from "./assets/chat.png"
 import img2 from "./assets/e-shop.png"
@@ -23,6 +24,10 @@ const router = createRouter({
     {
       path: "/projects/:id",
       component: ProjectPage,
+    },
+    {
+      path: "/:notFound(.*)",
+      component: ErrorPage,
     },
   ],
   history: createWebHistory(),

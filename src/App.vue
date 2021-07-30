@@ -25,6 +25,7 @@ export default {
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@400;700;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Orbitron&display=swap");
 * {
   margin: 0;
   padding: 0;
@@ -36,12 +37,14 @@ export default {
 
 html {
   scroll-behavior: smooth;
+  font-family: "Noto Serif JP", Helvetica, Arial, sans-serif;
 }
 
 body {
   overflow-x: hidden;
   height: 95vh;
   max-height: 95vh;
+  font-family: "Noto Serif JP", Helvetica, Arial, sans-serif;
 }
 
 *::-webkit-scrollbar {

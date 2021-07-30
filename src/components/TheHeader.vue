@@ -17,8 +17,6 @@
 </template>
 
 <style>
-@import url("https://fonts.googleapis.com/css2?family=Orbitron&display=swap");
-
 :root {
   --header-size: 10vw;
 }
