@@ -45,7 +45,7 @@ const store = createStore({
           A chat app with simple authentication. By default, you are in the chat group with all people whoever created own account.
           Also, you can see all members of the app and can start a conversation with any of them. 
         `,
-          tenchologies: ["HTML", "CSS", "JavaScript", "Vue", "MongoDB"],
+          tenchologies: ["HTML", "CSS", "JavaScript", "Vue", "MongoDB","Socket.IO"],
           href: "",
           github: "https://github.com/moXq1/chatApp",
         },
