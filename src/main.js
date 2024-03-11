@@ -13,7 +13,6 @@ import img2 from "./assets/e-shop.png"
 import img3 from "./assets/nintendo-game-info-page.png"
 import img4 from "./assets/countries-app.png"
 import img5 from "./assets/pomodoro-app.png"
-import img6 from "./assets/simon-says.png"
 import img7 from "./assets/mwebrtc.png"
 
 const router = createRouter({
@@ -110,17 +109,6 @@ Simple e-commerce web application built with Vue JS and Firebase. Features inclu
           tenchologies: ["HTML", "CSS", "JavaScript", "SASS"],
           href: "https://pomodoro-app.vercel.app/",
           github: "https://github.com/moXq1/pomodoro-app",
-        },
-        {
-          img: img6,
-          title: "Simon says",
-          id: "simon_says",
-          info: `Simon Says is a small game.
-          The game consists of a device that illuminates one or more buttons in a random order. Then the player must reproduce this order by pressing the buttons. As soon as you played the sequence successfully, you move to the next round.
-        `,
-          tenchologies: ["HTML", "CSS", "JavaScript", "Vue"],
-          href: "https://simon-says-psi.vercel.app/",
-          github: "https://github.com/moXq1/SimonSays",
         },
       ],
       currendProjectId: null,
