@@ -14,6 +14,7 @@ import img3 from "./assets/nintendo-game-info-page.png"
 import img4 from "./assets/countries-app.png"
 import img5 from "./assets/pomodoro-app.png"
 import img6 from "./assets/simon-says.png"
+import img7 from "./assets/mwebrtc.png"
 
 const router = createRouter({
   routes: [
@@ -37,6 +38,17 @@ const store = createStore({
   state() {
     return {
       imgs: [
+        {
+          img: img7,
+          title: "Talk-fuse",
+          id: "talk-fuse",
+          info: `
+            Built a video chat app (think Omegle). Users can hop in for spontaneous video chats, making new connections inreal-time, all within their browser.
+        `,
+          tenchologies: ["HTML", "CSS", "JavaScript","TypeScript", "WebRTC", "Next.js","Sockets"],
+          href: "",
+          github: "https://github.com/moXq1/webRTC-app",
+        },
         {
           img: img1,
           title: "Chatterino",
