@@ -246,7 +246,8 @@ export default {
           this.initialWidth = this.parent.clientWidth
           this.scrollLeftBResize = 0
           this.parent.scrollLeft = 0
-          this.geometry = new THREE.PlaneBufferGeometry(1, 1, 20, 20)
+          // this.geometry = new THREE.PlaneBufferGeometry(1, 1, 20, 20)
+           this.geometry = new THREE.PlaneGeometry(1, 1, 20, 20)
           this.hovered = 1
           this.currentMesh = null
           this.meshes = []
